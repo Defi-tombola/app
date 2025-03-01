@@ -1,0 +1,165 @@
+type AccountType {
+  address: String!
+  avatar: String
+  createdAt: String!
+  name: String
+  twitter: String
+  updatedAt: String!
+}
+
+type AssetType {
+  address: String!
+  createdAt: String!
+  decimals: Int
+  deprecated: Boolean!
+  id: String!
+  name: String!
+  symbol: String!
+  type: String!
+}
+
+type AuthType {
+  accessToken: String!
+  account: AccountType
+  address: String!
+}
+
+scalar Decimal
+
+enum DrawStatus {
+  CANCELLED
+  COMPLETED
+  PENDING
+}
+
+type DrawType {
+  drawDate: String
+  id: String!
+  lotteryId: String!
+  status: DrawStatus!
+  transactionHash: String
+  updatedAt: String!
+  winner: AccountType
+}
+
+input LinkTwitterInput {
+  code: String!
+  state: String!
+}
+
+input LoginSignatureInput {
+  """Signature for provided timestamp"""
+  signature: String!
+
+  """Timestamp used for the signature"""
+  timestamp: String!
+}
+
+input LotteryFilterInput {
+  featured: Boolean
+  status: LotteryStatus
+  uid: String
+}
+
+enum LotteryStatus {
+  CANCELLED
+  COMPLETED
+  ONGOING
+  SCHEDULED
+}
+
+type LotteryType {
+  createdAt: String!
+  draw: DrawType
+  endDate: String!
+  feeTicketAmount: Decimal!
+  id: String!
+  maxTickets: Int!
+  name: String!
+  prize: PrizeType!
+  startDate: String!
+  status: LotteryStatus!
+  ticketAsset: AssetType
+  ticketPrice: Decimal!
+  tickets: [TicketType!]!
+  uid: String!
+  updatedAt: String!
+}
+
+type Mutation {
+  linkTwitterToAccount(input: LinkTwitterInput!): AccountType!
+
+  """Exchange signature to token that can be used to authorize user"""
+  loginWithSignature(input: LoginSignatureInput!): AuthType!
+
+  """Update current account with provided data"""
+  updateAccount(input: UpdateAccountInput!): AccountType!
+}
+
+enum PrizeStatus {
+  ACTIVE
+  DISTRIBUTED
+  REFUNDED
+}
+
+type PrizeType {
+  createdAt: String!
+  id: String!
+  lotteryId: String!
+  prizeAsset: AssetType!
+  status: PrizeStatus!
+  totalPrizePool: Decimal!
+  updatedAt: String!
+}
+
+type Query {
+  """Get account graph by address"""
+  account(address: String!): AccountType!
+
+  """Get list of all supported assets"""
+  assets: [AssetType!]!
+
+  """Fetches the last 10 tickets sold"""
+  getLastTickets: [TicketType!]!
+  getUserTickets(address: String!): [TicketType!]!
+
+  """Get list of all supported assets"""
+  lotteries(input: LotteryFilterInput!): [LotteryType!]!
+  lottery(uid: String!): LotteryType!
+  twitterAuthUrl(redirectUri: String!): String!
+  verify(txHash: String!): DrawType
+}
+
+type Subscription {
+  ticketBought: TicketType!
+}
+
+type TicketType {
+  account: AccountType!
+  asset: AssetType!
+  createdAt: String!
+  id: String!
+
+  """Represent the price of each ticket"""
+  individualTicketPrice: Decimal!
+  lotteryId: String!
+  lotteryUid: String!
+
+  """
+  Represent the number of tickets the user has bought on this transaction
+  """
+  nTickets: Int!
+  purchasedAt: String!
+
+  """Represent the total price of all the tickets bought"""
+  totalPrice: Decimal!
+  transactionHash: String!
+  updatedAt: String!
+}
+
+input UpdateAccountInput {
+  bio: String
+  name: String
+  slug: String
+  twitter: String
+}

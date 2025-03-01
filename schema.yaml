@@ -1,0 +1,10 @@
+overwrite: true
+schema: 'http://0.0.0.0:8001/'
+generates:
+  schema.graphql:
+    plugins:
+      - 'schema-ast'
+
+  schema.json:
+    plugins:
+      - introspection
