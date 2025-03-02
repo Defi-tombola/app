@@ -20,29 +20,23 @@ export class LotteryProviderService {
     }
 
     public async buyTickets(props: BuyTicketsProps) {
-        try {
-            const lotteryProvider = await this.getContract();
-            const ticketPrice = props.lottery.ticketPrice;
-            const nTickets = props.nTickets;
+        const lotteryProvider = await this.getContract();
+        const ticketPrice = props.lottery.ticketPrice;
+        const nTickets = props.nTickets;
 
-            const minAllowance = ticketPrice.multipliedBy(nTickets);
-            invariant(props.lottery.ticketAsset?.address, "Ticket asset address is not defined");
+        const minAllowance = ticketPrice.multipliedBy(nTickets);
+        invariant(props.lottery.ticketAsset?.address, "Ticket asset address is not defined");
 
-            const tokenProvider = new Erc20Provider(props.lottery.ticketAsset.address);
+        const tokenProvider = new Erc20Provider(props.lottery.ticketAsset.address);
 
-            const allowance = await tokenProvider.getAllowance();
-            console.log(`Token allowance: ${allowance.toString()}`)
-            console.log(`needed allowance: ${minAllowance.toString()}`)
-            if (allowance < minAllowance) {
-                const infiniteAllowance = new BigNumber(Number.MAX_VALUE);
-                const tx = await tokenProvider.approve(infiniteAllowance.toString());
-                viewOnExplorer({ message: "Approved infinite token allowance", txHash: tx.hash });
-            }
-
-            return lotteryProvider.buyTicket(props.lottery.uid, nTickets);
-        } catch (error) {
-            toast.error("An error occurred while buying tickets.");
+        const allowance = await tokenProvider.getAllowance();
+        if (allowance < minAllowance) {
+            const infiniteAllowance = new BigNumber(minAllowance.plus(10));
+            const tx = await tokenProvider.approve(infiniteAllowance.toString());
+            viewOnExplorer({ message: "Approved infinite token allowance", txHash: tx.hash });
         }
+
+        return lotteryProvider.buyTicket(props.lottery.uid, nTickets);
     }
 
     private getContract = async (): Promise<LotteryProvider> => {

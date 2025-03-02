@@ -47,13 +47,7 @@ export default function Page() {
                 toast.error(`You can only buy at maximum ${lottery.maxTickets - ticketsSold} tickets.`);
             }
         } catch (error) {
-            const isConnected = await networkProvider.isConnected();
-            if (!isConnected) {
-              toast.error('Please connect your wallet first.');
-            } else {
-                toast.error('An error occurred while buying tickets.');
-            }
-
+            toast.error('An error has occurred. Please make sure your wallet is connected.');
             setIsBuyingTickets(false)
             console.error(error);
         }

@@ -23,14 +23,4 @@ export const networkProvider = {
 
         return signer
     },
-
-    isConnected: async (chainId = DEFAULT_CHAIN_ID): Promise<boolean> => {
-        try {
-            const provider = await this.getProvider();
-            const blockNumber = await provider.getBlockNumber();
-            return true
-        } catch (error) {
-            return false;
-        }
-    }
 }
