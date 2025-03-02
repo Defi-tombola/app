@@ -7,7 +7,7 @@ import { WagmiProvider } from 'wagmi';
 import { darkTheme, lightTheme, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import "../core/globals.css";
 
-import { config } from '../wagmi';
+import { config } from "@/wagmi";
 import Layout from "../components/Layout";
 import { apolloClient } from "@/core/api/gql-client";
 import { ThemeProvider } from "@/components/ThemeProvider";

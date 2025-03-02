@@ -38,12 +38,12 @@ const items = [
     title: "Verify",
     url: "/verify",
     icon: VerifiedIcon,
-  },
-  {
-    title: "My Profile",
-    url: "/profile",
-    icon: UserIcon
   }
+  // {
+  //   title: "My Profile",
+  //   url: "/profile",
+  //   icon: UserIcon
+  // }
 ]
 
 export function TombolaSidebar() {
