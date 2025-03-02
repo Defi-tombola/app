@@ -23,12 +23,14 @@ import { viewOnExplorer } from "@/components/ui/view-on-explorer-toast";
 import BigNumber from "bignumber.js";
 import { TicketFeedTable } from "@/components/lottery/TicketFeedTable";
 import { formatShortAddress } from "@/components/lib/utils";
+import { networkProvider } from "@/core/services/network-provider";
 
 export default function Page() {
     const router = useRouter();
 
     const [getLottery, { loading, data }] = useLazyQuery<GetLotteryQuery, GetLotteryQueryVariables>(GET_LOTTERY);
     const [totalCost, setTotalCost] = useState<number>(0);
+    const [isBuyingTickets, setIsBuyingTickets] = useState(false);
 
     const form = useForm<z.infer<typeof buyTicketsFormSchema>>({
         resolver: zodResolver(buyTicketsFormSchema),
@@ -42,10 +44,17 @@ export default function Page() {
             if (isAllowedAmount(data.tickets)) {
                 await butTicketsHandler(data.tickets);
             } else {
-                toast(`You can only buy at maximum ${lottery.maxTickets - ticketsSold} tickets.`);
+                toast.error(`You can only buy at maximum ${lottery.maxTickets - ticketsSold} tickets.`);
             }
         } catch (error) {
-            toast.error('An error occurred while buying tickets.');
+            const isConnected = await networkProvider.isConnected();
+            if (!isConnected) {
+              toast.error('Please connect your wallet first.');
+            } else {
+                toast.error('An error occurred while buying tickets.');
+            }
+
+            setIsBuyingTickets(false)
             console.error(error);
         }
     }
@@ -84,30 +93,33 @@ export default function Page() {
         return amount + ticketsSold <= lottery.maxTickets;
     }
 
+
     const butTicketsHandler = async (ticketAmount: number) => {
+        setIsBuyingTickets(true)
         // Handle form submission logic here
         const lotteryProvider = new LotteryProviderService();
         const tx = await lotteryProvider.buyTickets({ lottery, nTickets: ticketAmount });
 
         viewOnExplorer({ message: "Buying tickets", txHash: tx.hash });
         await tx.wait(1);
+        setIsBuyingTickets(false)
     };
 
     const parsedPrizePool = lottery.prize.totalPrizePool.dividedBy(10 ** lottery.ticketAsset?.decimals || 6).toString()
 
     return (
       <div>
-          <div className="grid grid-cols-8 gap-4">
-              <Card className="bg-linear-to-bl from-indigo-800 to-red-400 text-white col-span-8 lg:col-span-4">
+          <div className="grid grid-cols-8 gap-4 relative">
+              <Card className="text-white col-span-8 lg:col-span-4 bg-[url('/lottery/tickets.png')] relative bg-cover bg-center">
                   <CardHeader>
                       <CardTitle className="text-2xl">
                           {lottery.name}
                       </CardTitle>
                       <CardDescription className="text-white">
-                          Enter the lottery for {ticketPrice} {lottery.ticketAsset?.symbol} per ticket
+                          Enter the tombola for {ticketPrice} {lottery.ticketAsset?.symbol} per ticket
                       </CardDescription>
                   </CardHeader>
-                  <CardContent className="grid flex grid-cols-4 gap-10">
+                  <CardContent className="grid flex flex-col grid-cols-4 gap-10">
                       <div className="cols-span-1">
                           <div className="gap-2">
                               <Badge>Lottery Prize Pool</Badge>
@@ -204,7 +216,7 @@ export default function Page() {
                                   </FormItem>
                                 )}
                               />
-                              <Button type="submit" disabled={lottery.status !== LotteryStatus.Ongoing} className="w-full">Buy tickets</Button>
+                              <Button type="submit" disabled={lottery.status !== LotteryStatus.Ongoing || isBuyingTickets} className="w-full">Buy tickets</Button>
                           </form>
                       </Form>
                   </CardContent>

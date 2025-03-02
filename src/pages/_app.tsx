@@ -13,6 +13,7 @@ import { apolloClient } from "@/core/api/gql-client";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import React from "react";
 import { Toaster } from "sonner";
+import Head from "next/head";
 
 const client = new QueryClient();
 
@@ -33,6 +34,11 @@ function MyApp({ Component, pageProps }: AppProps) {
           >
             <Toaster />
             <Layout>
+              <Head>
+                <title>Tombola dApp</title>
+                <meta content="Tombola dapp" name="Tombola dapp" />
+                <link href="/lottery/tickets.png" rel="icon" />
+              </Head>
               <Component {...pageProps} />
             </Layout>
           </ThemeProvider>

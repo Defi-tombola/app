@@ -58,11 +58,7 @@ const Home = () => {
 
   return (
     <div>
-      <Head>
-        <title>Tombola dApp</title>
-        <meta content="Tombola dapp" name="Tombola dapp" />
-        <link href="/favicon.ico" rel="icon" />
-      </Head>
+
 
       <div>
         {/*<FrontPage/>*/}
@@ -70,7 +66,7 @@ const Home = () => {
           featuredTombolaLength > 0 && (
             <div>
               <h1 className="text-2xl font-bold mb-4">Featured tombolas</h1>
-              <div className="flex gap-3 my-5">
+              <div className="flex gap-3 my-5 grid grid-cols-1 xl:grid-cols-3">
                 {featuredData?.lotteries.map(lottery => (
                   <div key={lottery.id} className="">
                     <FeaturedLottery lottery={lottery}/>
@@ -80,11 +76,12 @@ const Home = () => {
             </div>
           )
         }
-        <div className="font-bold text-2xl flex items-center gap-2">
-          <RadioIcon size={16} className="text-red-500"></RadioIcon>
-          Live feed tickets
+        <div className="font-bold text-2xl flex items-center gap-3">
+          <RadioIcon size={16} className="text-red-500 animate-pulse"></RadioIcon>
+          <div>Live feed tickets</div>
+
         </div>
-        <TicketFeedTable tickets={tickets}/>
+        <TicketFeedTable tickets={tickets} />
       </div>
     </div>
   );

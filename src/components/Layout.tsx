@@ -8,7 +8,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <SidebarProvider>
             <TombolaSidebar />
             <SidebarTrigger />
-            <main  className="w-full p-10">
+            <main  className="w-full p-2 md:p-10">
               <Navbar/>
               <div className="mt-10">
                 {children}

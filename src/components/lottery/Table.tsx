@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { BytesTransformer } from "@/utils";
 import { getExplorerLinkByAddress, getExplorerLinkByTransactionHash } from "@/utils/explorer";
 import { ExternalLinkIcon } from "lucide-react";
+import Link from "next/link";
 
 const LotteryTable = ({ lotteries }: { lotteries: LotteryType[]}) => {
   return (
@@ -54,7 +55,9 @@ const LotteryCard = ({ lotteryProps }: { lotteryProps: LotteryType }) => {
 
   return (
     <TableRow key={id} className="border-b">
-      <TableCell className="text-left">{name}</TableCell>
+      <TableCell className="text-left underline">
+        <a href={`/tombola/${BytesTransformer.toReadableDecimal(uid)}`}>{name}</a>
+      </TableCell>
       <TableCell className="text-left">
         <Badge>
           {status}

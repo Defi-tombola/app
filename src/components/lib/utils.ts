@@ -15,7 +15,7 @@ const truncateRegex = (chars = 4) => new RegExp(`^([a-zA-Z0-9]{${chars}})[a-zA-Z
  * @param chars Number of characters to keep at the start and end of the address (default is 4).
  * @returns Truncated address with `…` in the middle. Returns the original address if it doesn't match the expected format.
  */
-export const formatShortAddress = (address?: string, chars = 4) => {
+export const formatShortAddress = (address?: string | null, chars = 4) => {
   if (!address) {
     return "0x0";
   }

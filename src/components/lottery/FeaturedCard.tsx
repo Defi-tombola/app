@@ -4,7 +4,8 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter }
 import Image from "next/image";
 import { LotteryStatus, LotteryType } from "@/core/api/schema";
 import { AssetAvatar, tokenSymbolToAvatar } from "@/components/avatar/Avatar";
-import { BytesTransformer } from "@/utils"; // For handling images
+import { BytesTransformer } from "@/utils";
+import { useState } from "react"; // For handling images
 
 export const FeaturedLottery = ({ lottery }: { lottery: LotteryType }) => {
   const {

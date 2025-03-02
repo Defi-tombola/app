@@ -1,6 +1,6 @@
 import { LOTTERY_PROVIDER_ADDRESS } from "@/utils";
 import { IERC20__factory } from "@robertprp/lottery-contracts";
-import {  NetworkProvider } from "@/core/services/network-provider";
+import {  networkProvider } from "@/core/services/network-provider";
 import { BigNumberish } from "ethers";
 
 export class Erc20Provider {
@@ -28,11 +28,12 @@ export class Erc20Provider {
     const signer = await this.getSigner();
     const address = await signer.getAddress();
 
+    console.log(`Checking allowance: address ${address} and spender ${spender} for token address ${this.erc20Address}`)
     return contract.allowance(address, spender);
   }
 
   private async getSigner() {
-    return NetworkProvider.getSigner()
+    return networkProvider.getSigner()
   }
 
   private async getContract() {

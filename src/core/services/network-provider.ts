@@ -3,7 +3,7 @@ import {DEFAULT_CHAIN_ID} from "@/utils";
 import {FallbackProvider, JsonRpcProvider, JsonRpcSigner} from "@ethersproject/providers";
 
 export type JsonRPCProvider = JsonRpcProvider | FallbackProvider;
-export const NetworkProvider = {
+export const networkProvider = {
     getProvider: async (chainId = DEFAULT_CHAIN_ID): Promise<JsonRPCProvider>  => {
         const provider = useEthersProvider({ chainId });
 
@@ -22,5 +22,15 @@ export const NetworkProvider = {
         }
 
         return signer
+    },
+
+    isConnected: async (chainId = DEFAULT_CHAIN_ID): Promise<boolean> => {
+        try {
+            const provider = await this.getProvider();
+            const blockNumber = await provider.getBlockNumber();
+            return true
+        } catch (error) {
+            return false;
+        }
     }
 }

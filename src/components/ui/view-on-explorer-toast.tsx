@@ -9,7 +9,7 @@ export type ViewOnExplorerProps = {
 }
 export const viewOnExplorer = (props: ViewOnExplorerProps) => {
   const explorer = getExplorerLinkByTransactionHash(props.txHash);
-  toast(props.message, {
+  toast.success(props.message, {
     description: (
       <a href={explorer} target="_blank" className="flex gap-1 items-center">
         View on Explorer <ExternalLinkIcon size={13}/>
