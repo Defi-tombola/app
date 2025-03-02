@@ -9,7 +9,7 @@ import "../core/globals.css";
 
 import { config } from '../wagmi';
 import Layout from "../components/Layout";
-import { apolloClient } from '../core/api/gql-client';
+import { apolloClient } from "@/core/api/gql-client";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import React from "react";
 import { Toaster } from "sonner";

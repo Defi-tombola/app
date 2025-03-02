@@ -38,9 +38,8 @@ const cache = new InMemoryCache({
   }
 })
 
-// @ts-ignore
 const wsConfig :WebSocketLink.Configuration = {
-  uri: `ws://localhost:8001/ws`,
+  uri: process.env.GRAPHQL_WS_URL,
   options: {
     reconnect: true,
     lazy: true,
@@ -54,7 +53,7 @@ const wsConfig :WebSocketLink.Configuration = {
 const wsLink = process.browser ? new WebSocketLink(wsConfig) : null;
 
 const httplink = new HttpLink({
-  uri: 'http://localhost:8001/',
+  uri: process.env.GRAPHQL_HTTP_URL
 });
 
 const link = process.browser ? split( //only create the split in the browser
