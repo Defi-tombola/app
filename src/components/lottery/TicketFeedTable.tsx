@@ -31,7 +31,7 @@ export const TicketFeedTable = ({ tickets }: { tickets: TicketType[] }) => {
 };
 
 const TicketRow = ({ ticket }: { ticket: TicketType }) => {
-  const totalSpent = new BigNumber(ticket.totalPrice.toString()).dividedBy(10 ** ticket.asset.decimals || 6).toString();
+  const totalSpent = new BigNumber(ticket.totalPrice.toString()).dividedBy(10 ** (ticket.asset.decimals || 6)).toString();
   return (
     <TableRow>
       <TableCell>

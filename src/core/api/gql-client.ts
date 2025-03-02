@@ -39,7 +39,7 @@ const cache = new InMemoryCache({
 })
 
 const wsConfig :WebSocketLink.Configuration = {
-  uri: process.env.GRAPHQL_WS_URL,
+  uri: process.env.GRAPHQL_WS_URL ?? "http://localhost:8001/ws",
   options: {
     reconnect: true,
     lazy: true,
@@ -50,19 +50,19 @@ const wsConfig :WebSocketLink.Configuration = {
   }
 };
 
-const wsLink = process.browser ? new WebSocketLink(wsConfig) : null;
 
 const httplink = new HttpLink({
-  uri: process.env.GRAPHQL_HTTP_URL
+  uri: process.env.GRAPHQL_HTTP_URL ?? "http://localhost:8001/"
 });
 
 const link = process.browser ? split( //only create the split in the browser
   // split based on operation type
   ({ query }) => {
+    //@ts-ignore
     const { kind, operation } = getMainDefinition(query);
     return kind === 'OperationDefinition' && operation === 'subscription';
   },
-  wsLink,
+  new WebSocketLink(wsConfig),
   httplink,
 ) : httplink;
 

@@ -10,12 +10,7 @@ import { BytesTransformer } from "@/utils";
 import { getExplorerLinkByAddress, getExplorerLinkByTransactionHash } from "@/utils/explorer";
 import { ExternalLinkIcon } from "lucide-react";
 
-const LotteryTable = ({ lotteries }: GetLotteriesQuery | undefined) => {
-  if (lotteries === undefined) {
-    return (
-      <div>There are no tombolas</div>
-    )
-  }
+const LotteryTable = ({ lotteries }: { lotteries: LotteryType[]}) => {
   return (
     <div className="overflow-x-auto">
       <Table>
@@ -54,8 +49,8 @@ const LotteryCard = ({ lotteryProps }: { lotteryProps: LotteryType }) => {
   } = lotteryProps;
 
   const ticketCount = tickets.map(ticket => ticket.nTickets).reduce((a, b) => a + b, 0);
-  const ticketPriceFormatted = ticketPrice.dividedBy(10 ** ticketAsset?.decimals).decimalPlaces(2).toString();
-  const prizePool = prize.totalPrizePool.dividedBy(10 ** ticketAsset?.decimals).decimalPlaces(2).toString();
+  const ticketPriceFormatted = ticketPrice.dividedBy(10 ** (ticketAsset?.decimals ?? 18)).decimalPlaces(2).toString();
+  const prizePool = prize.totalPrizePool.dividedBy(10 ** (ticketAsset?.decimals ?? 18)).decimalPlaces(2).toString();
 
   return (
     <TableRow key={id} className="border-b">

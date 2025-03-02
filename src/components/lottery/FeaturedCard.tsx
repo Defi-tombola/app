@@ -23,9 +23,9 @@ export const FeaturedLottery = ({ lottery }: { lottery: LotteryType }) => {
   const ticketsBought = tickets.reduce((sum, ticket) => sum + ticket.nTickets, 0);
 
   // Format prize pool
-  const prizePool = `${prize.totalPrizePool.dividedBy(10 ** lottery.ticketAsset?.decimals || 6).toFixed(2)} ${prize.prizeAsset.symbol}`;
+  const prizePool = `${prize.totalPrizePool.dividedBy(10 ** (lottery.ticketAsset?.decimals ?? 6)).toFixed(2)} ${prize.prizeAsset.symbol}`;
 
-  const parsedTicketPrice = ticketPrice.dividedBy(10 ** ticketAsset?.decimals || 18).toFixed(2);
+  const parsedTicketPrice = ticketPrice.dividedBy(10 ** (ticketAsset?.decimals ?? 18)).toFixed(2);
   const formattedTicketPrice = `${parsedTicketPrice} ${ticketAsset?.symbol || "Tickets"}`;
 
   // Determine if the lottery is ongoing

@@ -20,7 +20,7 @@ export function AssetAvatar({ path }: { path: string }) {
 }
 
 export function tokenSymbolToAvatar({ symbol }: { symbol?: string }) {
-  switch (symbol.toUpperCase()) {
+  switch (symbol?.toUpperCase()) {
     case "USDC": {
       return (<AssetAvatar path="/usdc-logo.svg"></AssetAvatar>)
     }
