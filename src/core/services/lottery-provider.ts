@@ -31,9 +31,9 @@ export class LotteryProviderService {
 
         const allowance = await tokenProvider.getAllowance();
         if (allowance < minAllowance) {
-            const infiniteAllowance = new BigNumber(minAllowance.plus(10));
-            const tx = await tokenProvider.approve(infiniteAllowance.toString());
-            viewOnExplorer({ message: "Approved infinite token allowance", txHash: tx.hash });
+            const allowance = new BigNumber(minAllowance.plus(10));
+            const tx = await tokenProvider.approve(allowance.toString());
+            viewOnExplorer({ message: `Approved ${allowance.toString()} for allowance.`, txHash: tx.hash });
         }
 
         return lotteryProvider.buyTicket(props.lottery.uid, nTickets);

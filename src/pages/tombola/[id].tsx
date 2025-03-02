@@ -97,6 +97,7 @@ export default function Page() {
         viewOnExplorer({ message: "Buying tickets", txHash: tx.hash });
         await tx.wait(1);
         setIsBuyingTickets(false)
+        getLottery({ variables: { uid: BytesTransformer.toBytes(router.query.id as string) } });
     };
 
     const parsedPrizePool = lottery.prize.totalPrizePool.dividedBy(10 ** lottery.ticketAsset?.decimals || 6).toString()
