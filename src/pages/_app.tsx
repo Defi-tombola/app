@@ -38,6 +38,13 @@ function MyApp({ Component, pageProps }: AppProps) {
                 <title>Tombola dApp</title>
                 <meta content="Tombola dapp" name="Tombola dapp" />
                 <link href="/lottery/tickets.png" rel="icon" />
+                <meta charset="utf-8" />
+                <meta name="icon" content="/lottery/tickets.png" />
+                <meta name="viewport" content="width=device-width, initial-scale=1" />
+                <meta
+                  name="description"
+                  content="A Decentralized & Provably fair Tombola. Buy tickets and verify the result onchain."
+                />
               </Head>
               <Component {...pageProps} />
             </Layout>
