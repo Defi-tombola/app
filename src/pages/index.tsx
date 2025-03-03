@@ -57,9 +57,7 @@ const Home = () => {
   const featuredTombolaLength = featuredTombolas.length || 0;
 
   return (
-    <div>
-
-
+    <div >
       <div>
         {/*<FrontPage/>*/}
         {

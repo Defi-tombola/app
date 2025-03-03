@@ -7,10 +7,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <>
           <SidebarProvider>
             <TombolaSidebar />
-            <SidebarTrigger />
-            <main  className="w-full p-2 md:p-10">
-              <Navbar/>
-              <div className="mt-10">
+            <main className="w-full">
+              <SidebarTrigger />
+              <div className="mt-4 px-5 md:px-6">
+                <Navbar/>
+              </div>
+              <div className="mt-10 px-5 md:px-6">
                 {children}
               </div>
             </main>

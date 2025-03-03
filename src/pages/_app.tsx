@@ -22,7 +22,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     <ApolloProvider client={apolloClient}>
     <WagmiProvider config={config}>
       <QueryClientProvider client={client}>
-        <RainbowKitProvider coolMode={true} showRecentTransactions={true}     theme={{
+        <RainbowKitProvider theme={{
           lightMode: lightTheme(),
           darkMode: darkTheme(),
         }}>
