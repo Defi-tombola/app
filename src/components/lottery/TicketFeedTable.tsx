@@ -38,7 +38,7 @@ const TicketRow = ({ ticket }: { ticket: TicketType }) => {
         <div className="flex items-center gap-2">
           <UserDefaultAvatar/>
           <div>
-            <p className="font-medium">{ticket.account.name || "Anonymous"}</p>
+            {ticket.account.name ? <p className="font-medium">{ticket.account.name || "Anonymous"}</p> : null}
             <p className="text-sm text-gray-500">{ticket.account.address.slice(0, 6)}...{ticket.account.address.slice(-4)}</p>
           </div>
         </div>
